@@ -1,0 +1,24 @@
+;; -*- mode: org -*-
+
+| $ | dept=20     |        |
+|---+-------------+--------|
+|   | Description | Amount |
+|---+-------------+--------|
+|   | toothpaste  |  10.50 |
+|   | apples      |   0.85 |
+|   | oranges     |   1.25 |
+|   | bread       |   1.00 |
+|   | chocolate   |   1.58 |
+|   | water       |   1.58 |
+|   | lemonade    |   2.20 |
+|   | flour       |   3.20 |
+|   | sugar       |   1.00 |
+|---+-------------+--------|
+| # | 68          |  43.16 |
+#+TBLFM: @>$2='(length (mapconcat 'identity (list @-I..@-II) " "))::@>$3=vsum(@-I..@-II)+$dept
+
+
+;;=========================================================================
+;; Local Variables: ***
+;; mode: org ***
+;; End: ***

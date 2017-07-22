@@ -1,0 +1,27 @@
+#    -*- mode: org -*-
+
+
+Archived entries from file /home/username/some-org-features/some-org-features.org
+* Data
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2014-10-30 Thu 11:13
+  :ARCHIVE_FILE: ~/some-org-features/some-org-features.org
+  :ARCHIVE_CATEGORY: code
+  :END:
+
+#+TBLNAME: data-table
+|       ID | Name  | Nonsense | Upper Case      | Rating |
+|----------+-------+----------+-----------------+--------|
+|        1 | one   |      111 | ONE             |      3 |
+|        2 | two   |      222 | TWO             |      2 |
+|        3 | three |      333 | THREE           |      1 |
+|        4 | four  |      444 | FOUR            |      3 |
+|        5 | five  |      555 | FIVE            |      2 |
+|        6 | six   |      666 | SIX             |      1 |
+|        7 | seven |      777 | SEVEN           |      2 |
+|        8 | eight |      888 | EIGHT           |      3 |
+|----------+-------+----------+-----------------+--------|
+| Total: 8 |       |          | Total chars: 32 |     17 |
+#+TBLFM: @10$1='(format "Total: %s" (length '(@-II..@-I)))::@10$4='(format "Total chars: %s" (length (mapconcat 'identity (list @-II..@-I) "")))::@10$5=vsum(@-II..@-I)
+
+

@@ -1,0 +1,101 @@
+# -*- org-confirm-babel-evaluate: nil -*-
+
+#+BIND: org-export-html-postamble ""
+
+#+TITLE:     Example
+#+AUTHOR:    -
+#+EMAIL:     -
+#+DATE:      -
+#+DESCRIPTION:
+#+KEYWORDS:
+#+LANGUAGE:  en
+#+OPTIONS:   H:3 num:t toc:t \n:nil @:t ::t |:t ^:t -:t f:t *:t <:t
+#+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
+#+INFOJS_OPT: view:nil toc:nil ltoc:t mouse:underline buttons:0 path:http://orgmode.org/org-info.js
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+LINK_UP:   
+#+LINK_HOME: 
+#+XSLT:
+
+
+* Table
+
+#+TBLNAME: data-table
+|       ID | Name  | Nonsense | Upper Case      | Rating |
+|----------+-------+----------+-----------------+--------|
+|        1 | one   |      111 | ONE             |      3 |
+|        2 | two   |      222 | TWO             |      2 |
+|        3 | three |      333 | THREE           |      1 |
+|        4 | four  |      444 | FOUR            |      3 |
+|        5 | five  |      555 | FIVE            |      2 |
+|        6 | six   |      666 | SIX             |      1 |
+|        7 | seven |      777 | SEVEN           |      2 |
+|        8 | eight |      888 | EIGHT           |      3 |
+|----------+-------+----------+-----------------+--------|
+| Total: 8 |       |          | Total chars: 32 |     17 |
+#+TBLFM: @10$1='(format "Total: %s" (length '(@-II..@-I)))::@10$4='(format "Total chars: %s" (length (mapconcat 'identity (list @-II..@-I) "")))::@10$5=vsum(@-II..@-I)
+
+* Export
+
+#+name: generate-plots-code
+#+headers: :exports none :results nil :html nil :var table=data-table[2:-3,4]
+#+begin_src python
+data = table
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(1, 2)
+
+ax[0].set_title('Rating')
+ax[0].plot(data)
+
+ax[1].set_title('Random Data (Scatter Plot)')
+ax[1].scatter([112, 333, 23, 23, 3.5, 4], [22, 33, 393, 12, 0.5, 3])
+
+plt.savefig('images/graph.png')
+#+end_src
+
+#+results:
+: None
+
+#+caption: Graph
+#+attr_html: class="graph"
+[[file:./images/graph.png]]
+
+
+#+headers: :exports none :results nil :html nil :var code=generate-plots-code()
+#+begin_src emacs-lisp
+;; (progn
+;;   (org-babel-execute-buffer)
+;;  (org-export-as-html))
+(print code)
+#+end_src
+
+#+results:
+: None
+
+
+#==========================================================================
+# CSS
+#==========================================================================
+
+#+begin_html
+<style type="text/css" media="screen">
+body {
+  background-color: #ECEDEF;
+  color: #121212;
+}
+#content {
+  background-color: #F4F4F4;
+  box-shadow: 0 0 3px #6A6B6C;
+  max-width: 800px;
+  margin: auto;
+  padding: 25px;
+}
+img.graph {
+  box-shadow: 0 0 3px #6A6B6C;
+  max-width: 600px;
+  max-height: 600px;
+}
+</style>
+#+end_html

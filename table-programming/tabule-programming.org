@@ -1,0 +1,33 @@
+# -*- org-confirm-babel-evaluate: nil -*-
+
+* Table
+
+#+tblname: programming-table
+| Function | Parameter       |
+|----------+-----------------|
+| message  | This is a test. |
+| say      | foobar          |
+
+
+#+headers: :results output :var table=programming-table
+#+begin_src ruby
+require 'pp'
+
+data = table
+
+def message(message)
+  puts('MESSAGE: ' + message.to_s)
+end
+
+def say(message)
+  puts('SAY: ' + message.to_s)
+end
+
+# PP.pp(data)
+
+data.each do |row|
+  Object.send(row[0], row[1])
+end
+#+end_src  
+
+#+results:

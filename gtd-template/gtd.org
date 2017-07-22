@@ -1,0 +1,65 @@
+#+TYPE_TODO: ACTION PROJECT CALENDAR TRASH WAITING TICKLER RESOURCE
+#+TAGS: action project calendar trash waiting tickler resource
+
+#+BEGIN: columnview :hlines 1 :id global
+| ITEM                       | TODO     | PRIORITY | TAGS                |
+|----------------------------+----------+----------+---------------------|
+| * Test Checkboxes [3/5]    |          |          |                     |
+|----------------------------+----------+----------+---------------------|
+| * Check Colors [4/8] [50%] |          |          |                     |
+|----------------------------+----------+----------+---------------------|
+| * BUG Do noqnsense         | RESOURCE |          | :action:waiting:    |
+|----------------------------+----------+----------+---------------------|
+| * Something                | WAITING  |          | :tickler:           |
+|----------------------------+----------+----------+---------------------|
+| * Call Pete                | PROJECT  |          | :action:            |
+|----------------------------+----------+----------+---------------------|
+| * Colors                   |          |          | :colors:design:art: |
+|----------------------------+----------+----------+---------------------|
+| * Animals                  |          |          | :biology:animals:   |
+| ** Big                     |          |          |                     |
+| ** Small                   |          |          |                     |
+#+END:
+
+#+COLUMNS: %25ITEM %10TODO %3PRIORITY %12TAGS
+* Test Checkboxes [3/5]
+- [ ] One
+- [X] Two
+- [X] Three
+- [X] Four
+- [ ] Five
+* Check Colors [4/8] [50%]
+  :PROPERTIES:
+  :GTD:      project
+  :END:
+- [X] Red
+- [X] Green
+- [X] Blue
+- [X] Yellow
+- [ ] Cyan
+- [ ] Magenta
+- [ ] Brown
+- [ ] Pink
+* RESOURCE BUG Do noqnsense                                  :action:waiting:
+* WAITING Something						    :tickler:
+* PROJECT Call Pete						     :action:
+* Colors                                                  :colors:design:art:
+
+- red
+- green
+- blue
+
+* Animals                                                   :biology:animals:
+  :PROPERTIES:
+  :GTD:      project
+  :END:
+
+** Big
+
+- elephant
+- aligator
+
+** Small
+
+- mouse
+- bat

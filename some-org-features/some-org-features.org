@@ -1,0 +1,273 @@
+# -*- org-confirm-babel-evaluate: nil -*-
+
+#+BIND: org-export-html-postamble ""
+
+#+TITLE:     Code Blocks Example
+#+AUTHOR:    -
+#+EMAIL:     -
+#+DATE:      -
+#+DESCRIPTION:
+#+KEYWORDS:
+#+LANGUAGE:  en
+#+OPTIONS:   H:3 num:t toc:t \n:nil @:t ::t |:t ^:t -:t f:t *:t <:t
+#+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
+#+INFOJS_OPT: view:nil toc:nil ltoc:t mouse:underline buttons:0 path:http://orgmode.org/org-info.js
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+LINK_UP:   
+#+LINK_HOME: 
+#+XSLT:
+
+* Data
+
+#+begin_html
+<button type="button" onclick="alert('There are ' + document.getElementsByTagName('table').length + ' tables in this document.')">Click me now!</button>
+#+end_html
+
+#+TBLNAME: data-table
+|       ID | Name  | Nonsense | Upper Case      | Rating |
+|----------+-------+----------+-----------------+--------|
+|        1 | one   |      111 | ONE             |      3 |
+|        2 | two   |      222 | TWO             |      2 |
+|        3 | three |      333 | THREE           |      1 |
+|        4 | four  |      444 | FOUR            |      3 |
+|        5 | five  |      555 | FIVE            |      2 |
+|        6 | six   |      666 | SIX             |      1 |
+|        7 | seven |      777 | SEVEN           |      2 |
+|        8 | eight |      888 | EIGHT           |      3 |
+|----------+-------+----------+-----------------+--------|
+| Total: 8 |       |          | Total chars: 32 |     17 |
+#+TBLFM: @10$1='(format "Total: %s" (length '(@-II..@-I)))::@10$4='(format "Total chars: %s" (length (mapconcat 'identity (list @-II..@-I) "")))::@10$5=vsum(@-II..@-I)
+
+* Table With Row Names
+
+#+TBLNAME: fruit-table
+| Fruit      | Price | Color  |
+|------------+-------+--------|
+| apple      |  0.15 | green  |
+| banana     |  0.35 | yellow |
+| strawberry |  0.20 | red    |
+| orange     |  0.18 | orange |
+
+* Code Snippets
+
+** Lisp
+
+*** Simple Example
+
+#+begin_src emacs-lisp
+(insert (format "Here it goes..."))
+#+end_src
+
+*** Live Code Snippet
+
+src_emacs-lisp{(insert "foo")}
+
+*** Inspect an Org-table
+
+#+begin_src emacs-lisp :var table=data-table
+(print table)
+(print (length table))
+#+end_src
+
+*** Inspect an Org-table Range
+
+#+begin_src emacs-lisp :var table=data-table[2:-3,0]
+(print table)
+#+end_src
+
+** Ruby
+
+*** Simple Example
+
+#+begin_src ruby
+10.times do |i|
+  puts(i)
+end
+#+end_src
+
+*** Inspect Table Data
+
+#+name: ruby-example-code
+#+header: :result append :var table=data-table[2:-3,0]
+#+begin_src ruby
+data  = table
+output = ''
+table.each do |i|
+  output << i
+end
+return output
+#+end_src
+
+*** Shell Command Workaround
+
+#+begin_src sh :val code=ruby-example-code
+ruby -e "$code"
+#+end_src
+
+#+begin_src emacs-lisp :val code=ruby-example-code
+(print (length code))
+#+end_src
+
+#+begin_src sh
+ruby -e "
+class Foo
+  def bar()
+    puts('baz')
+  end
+end
+foo = Foo.new()
+foo.bar()
+"
+#+end_src
+
+** Python
+
+*** Write Something to stdout:
+
+#+name: python-test 
+#+headers: :session :results append
+#+begin_src python
+output = ''
+for i in range(10):
+  print(str(i))
+  output += str(i)
+output
+#+end_src
+
+#+results:
+
+*** Plot a Graph
+
+#+headers: :session :results file
+#+begin_src python
+import numpy as np
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots()
+data = np.sqrt(np.arange(0, 100, 2))
+ax.plot(data)
+plt.savefig('images/graph.png')
+'images/graph.png'
+# fig.show()
+#+end_src
+
+#+results:
+[[file:images/graph.png]]
+
+#+CAPTION: Graph
+#+ATTR_HTML: alt="cat/spider image" title="Graph"
+[[file:images/graph.png]]
+
+*** Plot table data
+
+#+headers: :session :results silent :var table=data-table[2:-3,4]
+#+begin_src python
+import numpy as np
+import matplotlib.pyplot as plt
+
+data = table
+fig, ax = plt.subplots()
+ax.plot(data)
+# plt.savefig('images/graph.png')
+# 'images/graph.png'
+fig.show()
+#+end_src
+
+#+results:
+
+*** Collected Output  
+
+#+begin_src python :results output
+for i in range(10):
+  print(i)
+#+end_src
+
+*** Tabular Output
+
+#+headers: :results results :sep ","
+#+begin_src python
+data = [[11, 22, 33], [44, 55, 66], [77, 88, 99]]
+return data
+#+end_src
+
+*** Table Input + Table Output Without `hlines', But With Column Names
+
+#+headers: :var table=data-table :results results :hlines no :colnames yes
+#+begin_src python
+data = table
+return data
+#+end_src
+
+*** Table Input With Row Name Preprocessing
+
+#+headers: :var table=fruit-table :results output :rownames yes
+#+begin_src python
+data = table
+for row in data:
+  print(row)
+#+end_src
+
+** JavaScript
+
+#+begin_src js
+console.log('foo')
+#+end_src
+
+** Shell
+
+#+HEADER: :var filename=(buffer-file-name)
+#+begin_src sh
+wc -l $filename
+#+end_src
+
+
+#+begin_html
+<style type="text/css" media="screen">
+  body {
+    background-color: #F8F8F9;
+  }
+  #content {
+    background-color: #FCFCFD;
+    color: #121212;
+    box-shadow: 0 2px 3px #585859;
+    padding: 25px;
+    max-width: 800px;
+    margin: auto;
+  }
+  #table-of-contents {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 200px;
+    background-color: #F2F3F8;
+    background-color: rgba(255, 255, 255, 0.0);
+    height: 30px;
+    padding-left: 25px;
+    padding-right: 25px;
+    overflow: hidden;
+    transition: all 0.1s;
+  }
+  #table-of-contents:hover {
+    width: 320px;
+    height: 100%;
+    box-shadow: 0 0 8px #585859;
+    background-color: #EAEAEA;
+    padding-left: 50px;
+    transition: all 0.8s;
+  }
+  #table-of-contents h2 {
+    font-size: 0.8em;
+  }
+  #table-of-contents h2:after {
+    content: " (hover)";
+    font-size: 0.8em;
+    color: #EAEAEA;
+  }
+  .figure img {
+    max-width: 400px;
+    max-height: 400px;
+    border: 5px solid rgba(10, 10, 10, 0.1);
+  }
+</style>
+#+end_html
